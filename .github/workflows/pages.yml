@@ -22,17 +22,50 @@ jobs:
       - name: Build direct HTML
         run: |
           cat site/orig00.b64 site/orig01.b64 site/orig02a.b64 site/orig02b0.b64 site/orig02b1.b64 site/orig02b2.b64 site/orig02b3.b64 | base64 -d | gunzip > index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          patch = '''
+          <style id="scroll-fix">
+            html {
+              width: 100% !important;
+              height: 100% !important;
+              overflow: hidden !important;
+            }
+            body {
+              width: 100% !important;
+              height: 100vh !important;
+              height: 100dvh !important;
+              min-height: 100vh !important;
+              max-width: 100% !important;
+              overflow-x: hidden !important;
+              overflow-y: auto !important;
+              -webkit-overflow-scrolling: touch !important;
+              touch-action: pan-y pinch-zoom !important;
+              overscroll-behavior-y: auto !important;
+            }
+            main {
+              min-height: calc(100vh - 80px) !important;
+              overflow: visible !important;
+            }
+          </style>
+          '''
+          s = s.replace('</head>', patch + '\n</head>', 1)
+          p.write_text(s, encoding='utf-8')
+          PY
           test -s index.html
           grep -q "BOY DOS PANOS" index.html
           ! grep -q 'width: 1280px; height: 6233px' index.html
           grep -q 'responsive-fix' index.html
+          grep -q 'scroll-fix' index.html
       - name: Persist direct index on main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
           if ! git diff --cached --quiet; then
-            git commit -m "Fix responsive desktop and mobile layout"
+            git commit -m "Enable vertical scrolling on desktop and mobile"
             git push origin HEAD:main
           fi
       - name: Configure Pages
