@@ -86,6 +86,31 @@
     body { margin-left: auto !important; margin-right: auto !important; }
   }
 </style>
+
+<style id="scroll-fix">
+  html {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  body {
+    width: 100% !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y pinch-zoom !important;
+    overscroll-behavior-y: auto !important;
+  }
+  main {
+    min-height: calc(100vh - 80px) !important;
+    overflow: visible !important;
+  }
+</style>
+
 </head>
 <body class="bg-surface font-sans text-text-primary antialiased selection:bg-brand-orange selection:text-white">
 <!-- HEADER -->
