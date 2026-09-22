@@ -19,6 +19,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Build direct HTML
+        run: |
+          base64 -d site/site.html.gz.b64 | gunzip > index.html
+          test -s index.html
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
