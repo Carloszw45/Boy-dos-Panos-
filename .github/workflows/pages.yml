@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -24,6 +24,15 @@ jobs:
           cat site/orig00.b64 site/orig01.b64 site/orig02.b64 | base64 -d | gunzip > index.html
           test -s index.html
           grep -q "BOY DOS PANOS" index.html
+      - name: Persist direct index on main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "Replace loader with direct site HTML"
+            git push origin HEAD:main
+          fi
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
