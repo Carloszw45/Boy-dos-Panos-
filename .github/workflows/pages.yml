@@ -21,16 +21,18 @@ jobs:
         uses: actions/checkout@v4
       - name: Build direct HTML
         run: |
-          cat site/orig00.b64 site/orig01.b64 site/orig02.b64 | base64 -d | gunzip > index.html
+          cat site/orig00.b64 site/orig01.b64 site/orig02a.b64 site/orig02b.b64 | base64 -d | gunzip > index.html
           test -s index.html
           grep -q "BOY DOS PANOS" index.html
+          ! grep -q 'width: 1280px; height: 6233px' index.html
+          grep -q 'responsive-fix' index.html
       - name: Persist direct index on main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
           if ! git diff --cached --quiet; then
-            git commit -m "Replace loader with direct site HTML"
+            git commit -m "Fix responsive desktop and mobile layout"
             git push origin HEAD:main
           fi
       - name: Configure Pages
