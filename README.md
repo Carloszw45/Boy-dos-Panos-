@@ -1,6 +1,6 @@
 # Boy dos Panos
 
-Site de moda masculina construído a partir do esboço aprovado, com as mesmas imagens, cores, cards e composição. No celular, os seis produtos aparecem em duas linhas de três. Todas as seções continuam visíveis.
+Site de moda masculina construído a partir do esboço aprovado, com as mesmas imagens, cores, cards e composição. No celular, a composição diminui proporcionalmente e preserva cada fileira do esboço: cinco categorias, seis produtos, quatro informações de atendimento, cinco inspirações e dois banners lado a lado. Todas as seções continuam visíveis.
 
 [Site público](https://carloszw45.github.io/Boy-dos-Panos-/)
 
